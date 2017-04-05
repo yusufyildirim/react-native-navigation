@@ -22,7 +22,15 @@
   });
   
   if (tabBarController.selectedIndex != [tabBarController.viewControllers indexOfObject:viewController]) {
-    [RCCTabBarController sendScreenTabChangedEvent:viewController];
+    NSDictionary *body = @{
+                           @"selectedTabIndex": @([tabBarController.viewControllers indexOfObject:viewController]),
+                           @"unselectedTabIndex": @(tabBarController.selectedIndex)
+                           };
+    [RCCTabBarController sendScreenTabChangedEvent:viewController body:body];
+    
+    [[[RCCManager sharedInstance] getBridge].eventDispatcher sendAppEventWithName:@"bottomTabSelected" body:body];
+  } else {
+    [RCCTabBarController sendScreenTabPressedEvent:viewController body:nil];
   }
 
   return YES;
@@ -244,7 +252,15 @@
   }
 }
 
-+(void)sendScreenTabChangedEvent:(UIViewController*)viewController {
++(void)sendScreenTabChangedEvent:(UIViewController*)viewController body:(NSDictionary*)body{
+  [RCCTabBarController sendTabEvent:@"bottomTabSelected" controller:viewController body:body];
+}
+
++(void)sendScreenTabPressedEvent:(UIViewController*)viewController body:(NSDictionary*)body{
+  [RCCTabBarController sendTabEvent:@"bottomTabReselected" controller:viewController body:body];
+}
+
++(void)sendTabEvent:(NSString *)event controller:(UIViewController*)viewController body:(NSDictionary*)body{
   if ([viewController.view isKindOfClass:[RCTRootView class]]){
     RCTRootView *rootView = (RCTRootView *)viewController.view;
     
@@ -252,19 +268,27 @@
       NSString *navigatorID = rootView.appProperties[@"navigatorID"];
       NSString *screenInstanceID = rootView.appProperties[@"screenInstanceID"];
       
-      [[[RCCManager sharedInstance] getBridge].eventDispatcher sendAppEventWithName:rootView.appProperties[@"navigatorEventID"] body:@
-       {
-         @"id": @"bottomTabSelected",
-         @"navigatorID": navigatorID,
-         @"screenInstanceID": screenInstanceID
-       }];
+      
+      NSMutableDictionary *screenDict = [NSMutableDictionary dictionaryWithDictionary:@
+                                         {
+                                           @"id": event,
+                                           @"navigatorID": navigatorID,
+                                           @"screenInstanceID": screenInstanceID
+                                         }];
+      
+      
+      if (body) {
+        [screenDict addEntriesFromDictionary:body];
+      }
+      
+      [[[RCCManager sharedInstance] getBridge].eventDispatcher sendAppEventWithName:rootView.appProperties[@"navigatorEventID"] body:screenDict];
     }
   }
   
   if ([viewController isKindOfClass:[UINavigationController class]]) {
     UINavigationController *navigationController = (UINavigationController*)viewController;
     UIViewController *topViewController = [navigationController topViewController];
-    [RCCTabBarController sendScreenTabChangedEvent:topViewController];
+    [RCCTabBarController sendTabEvent:event controller:topViewController body:body];
   }
 }
 
