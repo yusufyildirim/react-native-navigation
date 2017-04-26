@@ -10,6 +10,8 @@
 #import "RCCExternalViewControllerProtocol.h"
 #import "RCTHelpers.h"
 #import "RCCTitleViewHelper.h"
+#import "RCCCustomTitleView.h"
+
 
 NSString* const RCCViewControllerCancelReactTouchesNotification = @"RCCViewControllerCancelReactTouchesNotification";
 
@@ -461,6 +463,7 @@ const NSInteger TRANSPARENT_NAVBAR_TAG = 78264803;
     }
     
 }
+
 
 -(void)storeOriginalNavBarImages {
     
