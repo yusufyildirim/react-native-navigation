@@ -26,6 +26,7 @@ public class TitleBar extends Toolbar {
     private static final int TITLE_VISIBILITY_ANIMATION_DURATION = 320;
     private LeftButton leftButton;
     private ActionMenuView actionMenuView;
+    private List<TitleBarButtonParams> rightButtons;
 
     public TitleBar(Context context) {
         super(context);
@@ -40,12 +41,13 @@ public class TitleBar extends Toolbar {
     }
 
     public void setRightButtons(List<TitleBarButtonParams> rightButtons, String navigatorEventId) {
+        this.rightButtons = rightButtons;
         Menu menu = getMenu();
         menu.clear();
         if (rightButtons == null) {
             return;
         }
-        addButtonsToTitleBar(rightButtons, navigatorEventId, menu);
+        addButtonsToTitleBar(navigatorEventId, menu);
     }
 
     public void setLeftButton(TitleBarLeftButtonParams leftButtonParams,
@@ -109,7 +111,7 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    private void addButtonsToTitleBar(List<TitleBarButtonParams> rightButtons, String navigatorEventId, Menu menu) {
+    private void addButtonsToTitleBar(String navigatorEventId, Menu menu) {
         for (int i = 0; i < rightButtons.size(); i++) {
             final TitleBarButton button = ButtonFactory.create(menu, this, rightButtons.get(i), navigatorEventId);
             addButtonInReverseOrder(rightButtons, i, button);

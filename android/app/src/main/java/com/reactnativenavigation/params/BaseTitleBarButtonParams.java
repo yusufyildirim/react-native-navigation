@@ -30,4 +30,11 @@ public class BaseTitleBarButtonParams {
             color = titleBarButtonColor;
         }
     }
+
+    public StyleParams.Color getColor() {
+        if (enabled) {
+            return color;
+        }
+        return disabledColor.hasColor() ? disabledColor : AppStyle.appStyle.titleBarDisabledButtonColor;
+    }
 }
