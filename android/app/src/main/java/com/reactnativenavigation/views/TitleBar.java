@@ -13,6 +13,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
+import com.reactnativenavigation.params.BaseScreenParams;
 import com.reactnativenavigation.params.BaseTitleBarButtonParams;
 import com.reactnativenavigation.params.StyleParams;
 import com.reactnativenavigation.params.TitleBarButtonParams;
@@ -206,5 +207,61 @@ public class TitleBar extends Toolbar {
                 return child.getText().equals(getTitle());
             }
         });
+    }
+
+    public void setButtonColor(StyleParams.Color titleBarButtonColor) {
+        if (!titleBarButtonColor.hasColor()) {
+            return;
+        }
+        updateButtonColor(titleBarButtonColor);
+        setLeftButtonColor(titleBarButtonColor);
+        setButtonsIconColor();
+        setButtonTextColor();
+    }
+
+    private void setLeftButtonColor(StyleParams.Color titleBarButtonColor) {
+        if (leftButton != null) {
+            leftButton.setColor(titleBarButtonColor.getColor());
+        }
+    }
+
+    private void updateButtonColor(StyleParams.Color titleBarButtonColor) {
+        if (rightButtons != null) {
+            for (TitleBarButtonParams rightButton : rightButtons) {
+                rightButton.color = titleBarButtonColor;
+            }
+        }
+    }
+
+    private void setButtonTextColor() {
+        final ActionMenuView buttonsContainer = ViewUtils.findChildByClass(this, ActionMenuView.class);
+        if (buttonsContainer != null) {
+            for (int i = 0; i < buttonsContainer.getChildCount(); i++) {
+                if (buttonsContainer.getChildAt(i) instanceof TextView) {
+                    ((TextView) buttonsContainer.getChildAt(i)).setTextColor(getButton(i).getColor().getColor());
+                }
+            }
+        }
+    }
+
+    private void setButtonsIconColor() {
+        final Menu menu = getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.getItem(i).getIcon() != null) {
+                ViewUtils.tintDrawable(menu.getItem(i).getIcon(),
+                        getButton(i).getColor().getColor(),
+                        getButton(i).enabled);
+            }
+        }
+    }
+
+    BaseTitleBarButtonParams getButton(int index) {
+        return rightButtons.get(rightButtons.size() - index - 1);
+    }
+
+    public void onViewPagerScreenChanged(BaseScreenParams screenParams) {
+        if (hasLeftButton()) {
+            leftButton.updateNavigatorEventId(screenParams.getNavigatorEventId());
+        }
     }
 }
