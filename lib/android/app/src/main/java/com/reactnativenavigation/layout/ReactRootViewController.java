@@ -13,7 +13,7 @@ import com.reactnativenavigation.viewcontrollers.ViewController;
 public class ReactRootViewController extends ViewController implements NavigationOptionsHolder {
 
 	private final String name;
-	private final NavigationOptions navigationOptions;
+	private NavigationOptions navigationOptions;
 	private final ReactInstanceManager reactInstanceManager;
 	private boolean attachedToReactInstance = false;
 	private ReactRootView reactRootView;
@@ -30,7 +30,7 @@ public class ReactRootViewController extends ViewController implements Navigatio
 	}
 
 	public void mergeNavigationOptions(NavigationOptions options) {
-		navigationOptions.title = options.title;
+		navigationOptions = NavigationOptions.merge(navigationOptions, options);
 		applyNavigationOptions();
 	}
 
