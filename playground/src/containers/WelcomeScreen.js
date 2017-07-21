@@ -46,7 +46,7 @@ class WelcomeScreen extends Component {
             name: 'navigation.playground.TextScreen',
             title: 'Tab B',
             passProps: {
-              text: 'This is tab 2',
+              text: 'This is tab 2'
             }
           }
         }
