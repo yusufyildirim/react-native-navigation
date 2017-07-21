@@ -8,7 +8,6 @@ import {
 
 import Navigation from 'react-native-navigation';
 
-
 class TextScreen extends Component {
   render() {
     return (
