@@ -4,7 +4,8 @@
 #import "RNNRootViewController.h"
 #import "RNNSideMenuController.h"
 #import "RNNSideMenuChildVC.h"
-
+#import "RNNTabBarController.h"
+#import "RNNNavigationController.h"
 
 @interface RNNControllerFactoryTest : XCTestCase
 
@@ -68,7 +69,7 @@
 }
 
 - (void)testCreateLayout_BottomTabsLayout {
-	UITabBarController* tabBar = (UITabBarController*) [self.factory createLayoutAndSaveToStore:
+	RNNTabBarController* tabBar = (UITabBarController*) [self.factory createLayoutAndSaveToStore:
 														@{
 														  @"id": @"cntId",
 														  @"type": @"BottomTabs",
@@ -83,9 +84,9 @@
 																			  @"data": @{},
 																			  @"children": @[]}]}]}];
 	
-	XCTAssertTrue([tabBar isMemberOfClass:[UITabBarController class]]);
+	XCTAssertTrue([tabBar isMemberOfClass:[RNNTabBarController class]]);
 	XCTAssertTrue(tabBar.childViewControllers.count == 1);
-	XCTAssertTrue([tabBar.childViewControllers[0] isMemberOfClass:[UINavigationController class]]);
+	XCTAssertTrue([tabBar.childViewControllers[0] isMemberOfClass:[RNNNavigationController class]]);
 	
 	UINavigationController *navController = tabBar.childViewControllers[0];
 	XCTAssertTrue(navController.childViewControllers.count == 1);
@@ -171,13 +172,13 @@
 	
 	RNNSideMenuChildVC *center = (RNNSideMenuChildVC*)ans.center;
 	XCTAssertTrue(center.type == RNNSideMenuChildTypeCenter);
-	XCTAssertTrue([center.child isMemberOfClass:[UITabBarController class]]);
+	XCTAssertTrue([center.child isMemberOfClass:[RNNTabBarController class]]);
 	
 	UITabBarController *tabbBar = (UITabBarController*)center.child;
 	XCTAssertTrue(tabbBar.viewControllers.count == 1);
 	
 	UINavigationController *navController = (UINavigationController*)(tabbBar.viewControllers[0]);
-	XCTAssertTrue([navController isMemberOfClass:[UINavigationController class]]);
+	XCTAssertTrue([navController isMemberOfClass:[RNNNavigationController class]]);
 	XCTAssertTrue(navController.viewControllers.count == 1);
 	
 	RNNRootViewController *rootViewController = (RNNRootViewController*)navController.viewControllers[0];
