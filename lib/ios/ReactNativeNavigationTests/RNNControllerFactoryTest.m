@@ -49,7 +49,7 @@
 				@"type": @"ContainerStack",
 				@"data": @{},
 				@"children": @[]}];
-	XCTAssertTrue([ans isMemberOfClass:[UINavigationController class]]);
+	XCTAssertTrue([ans isMemberOfClass:[RNNNavigationController class]]);
 }
 
 - (void)testCreateLayout_ContainerStackLayoutRecursive {
@@ -63,13 +63,13 @@
 																		 @"data": @{},
 																		 @"children": @[]}]}];
 	
-	XCTAssertTrue([ans isMemberOfClass:[UINavigationController class]]);
+	XCTAssertTrue([ans isMemberOfClass:[RNNNavigationController class]]);
 	XCTAssertTrue(ans.childViewControllers.count == 1);
 	XCTAssertTrue([ans.childViewControllers[0] isMemberOfClass:[RNNRootViewController class]]);
 }
 
 - (void)testCreateLayout_BottomTabsLayout {
-	RNNTabBarController* tabBar = (UITabBarController*) [self.factory createLayoutAndSaveToStore:
+	RNNTabBarController* tabBar = (RNNTabBarController*) [self.factory createLayoutAndSaveToStore:
 														@{
 														  @"id": @"cntId",
 														  @"type": @"BottomTabs",
@@ -183,7 +183,38 @@
 	
 	RNNRootViewController *rootViewController = (RNNRootViewController*)navController.viewControllers[0];
 	XCTAssertTrue([rootViewController isMemberOfClass:[RNNRootViewController class]]);
-	
+}
+
+- (void)testNavigationOptions_default {
+	UIViewController *ans = [self.factory createLayoutAndSaveToStore: @{@"id": @"cntId_2",
+																		@"type": @"Container",
+																		@"data": @{@"navigationOptions": @{}},
+																		@"children": @[]}];
+	XCTAssertFalse([ans prefersStatusBarHidden]);
+}
+
+- (void)testNavigationOptions_true {
+	UIViewController *ans = [self.factory createLayoutAndSaveToStore: @{@"id": @"cntId_2",
+																	    @"type": @"Container",
+																		@"data": @{
+																			@"navigationOptions": @{
+																					@"statusBarHidden": @(1)
+																					}
+																			},
+																		@"children": @[]}];
+	XCTAssertTrue([ans prefersStatusBarHidden]);
+}
+
+- (void)testNavigationOptions_false {
+	UIViewController *ans = [self.factory createLayoutAndSaveToStore: @{@"id": @"cntId_2",
+																		@"type": @"Container",
+																		@"data": @{
+																				@"navigationOptions": @{
+																						@"statusBarHidden": @(0)
+																						}
+																				},
+																		@"children": @[]}];
+	XCTAssertFalse([ans prefersStatusBarHidden]);
 }
 
 - (void)testCreateLayout_addContainerToStore {
