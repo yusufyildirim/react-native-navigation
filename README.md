@@ -65,13 +65,6 @@ Here is the full comparison of features between v1 and v2 (will be updated regul
 | showLightBox        |   ✅     |      [Contribute](CONTRIBUTING.md)      | [Contribute](CONTRIBUTING.md)  |
 | dismissLightBox     |   ✅     |       [Contribute](CONTRIBUTING.md)       | [Contribute](CONTRIBUTING.md) |
 | handleDeepLink      |   ✅     |       [Contribute](CONTRIBUTING.md)       | [Contribute](CONTRIBUTING.md) |
-| setButtons          |   ✅     |         [Contribute](CONTRIBUTING.md)     | [Contribute](CONTRIBUTING.md) |
-| setTitle            |   ✅     |        	✅    | 	✅|
-| toggleDrawer        |   ✅     |        [Contribute](CONTRIBUTING.md)   | [Contribute](CONTRIBUTING.md) |
-| toggleTabs          |   ✅     |       in development    | [Contribute](CONTRIBUTING.md)|
-| setTabBadge         |    ✅    |       [Contribute](CONTRIBUTING.md)     | [Contribute](CONTRIBUTING.md)|
-| switchToTab         |    ✅    |      in development    |[Contribute](CONTRIBUTING.md) |
-| toggleNavBar        |   ✅     |      [Contribute](CONTRIBUTING.md)      | [Contribute](CONTRIBUTING.md)|
 | Screen Visibility   |   ✅     |       ✅     |✅|
 
 ### Styles
@@ -100,12 +93,19 @@ Note:  v1 properties with names beginning with 'navBar' are replaced in v2 with 
 | navBarSubtitleColor          |  ✅   |   [Contribute](CONTRIBUTING.md)     |      [Contribute](CONTRIBUTING.md)      |
 | navBarSubtitleFontFamily    |   ✅  |    [Contribute](CONTRIBUTING.md)    |     [Contribute](CONTRIBUTING.md)       |
 | screenBackgroundColor     | ✅    |   in development     |     [Contribute](CONTRIBUTING.md)       |
-| orientation     |  ✅   |  [Contribute](CONTRIBUTING.md)      |   [Contribute](CONTRIBUTING.md)          |
+| orientation     |  ✅   |  in development      |   [Contribute](CONTRIBUTING.md)          |
 | statusBarHideWithTopBar        |  ✅   |    [Contribute](CONTRIBUTING.md)     |     [Contribute](CONTRIBUTING.md)       |
-| statusBarHidden       |  ✅   |   [Contribute](CONTRIBUTING.md)       |     [Contribute](CONTRIBUTING.md)      |
+| statusBarHidden       |  ✅   |    ✅       |     [Contribute](CONTRIBUTING.md)      |
 | disabledBackGesture       |   ✅  |   [Contribute](CONTRIBUTING.md)       |    / iOS specific     |
 | screenBackgroundImageName         |   ✅  |   [Contribute](CONTRIBUTING.md)      |    [Contribute](CONTRIBUTING.md)        |
-| rootBackgroundImageName            |  ✅   |    [Contribute](CONTRIBUTING.md)     |    [Contribute](CONTRIBUTING.md)        |
+| rootBackgroundImageName            |  ✅   |    [Contribute](CONTRIBUTING.md)     |    [Contribute](CONTRIBUTING.md)       |
+| setButtons          |   ✅     |         [Contribute](CONTRIBUTING.md)     | [Contribute](CONTRIBUTING.md) |
+| title            |   ✅     |        	✅    | 	✅|
+| toggleDrawer        |   ✅     |        [Contribute](CONTRIBUTING.md)   | [Contribute](CONTRIBUTING.md) |
+| toggleTabs          |   ✅     |       in development    | [Contribute](CONTRIBUTING.md)|
+| setTabBadge         |    ✅    |       [Contribute](CONTRIBUTING.md)     | [Contribute](CONTRIBUTING.md)|
+| switchToTab         |    ✅    |      in development    |[Contribute](CONTRIBUTING.md) |
+| toggleNavBar        |   ✅     |      [Contribute](CONTRIBUTING.md)      | [Contribute](CONTRIBUTING.md)|
 
 Element tranisitions, adding buttons and styles are not yet implemented. [Contribute](CONTRIBUTING.md)
 
@@ -140,7 +140,7 @@ NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBun
 
 	```groovy
 	include ':react-native-navigation'
-	project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-	navigation/lib/android/app/')
+	project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/lib/android/app/')
 	```
 
 3. Update project dependencies in `android/app/build.gradle`.
@@ -159,14 +159,14 @@ NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBun
 	}
 	```
 
-4. In `MainActivity.java` it should extend `com.reactnativenavigation.controllers.SplashActivity` instead of `ReactActivity`.
+4. In `MainActivity.java` it should extend `com.reactnativenavigation.NavigationActivity` instead of `ReactActivity`.
 
 	This file can be located in `android/app/src/main/java/com/yourproject/`.
 
 	```java
-	import com.reactnativenavigation.controllers.SplashActivity;
+	import com.reactnativenavigation.NavigationActivity;
 
-	public class MainActivity extends SplashActivity {
+	public class MainActivity extends NavigationActivity {
 
 	}
 	```
@@ -192,15 +192,10 @@ NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBun
 				// eg. new VectorIconsPackage()
 			);
 		}
-
-		@Override
-		public List<ReactPackage> createAdditionalReactPackages() {
-			return getPackages();
-		}
 	}
 	```
 
-	Make sure that `isDebug` and `createAdditionalReactPackages` methods are implemented.
+	Make sure that `isDebug` methods is implemented.
 
 6. Update `AndroidManifest.xml` and set **android:name** value to `.MainApplication`
 	```xml
