@@ -116,7 +116,7 @@
 	XCTAssertThrows([self.uut viewWillAppear:false]);
 }
 
--(void)testTopBarHideOnScroll_true{
+-(void)testTopBarHideOnScroll_true {
 	NSNumber* hideOnScrollInput = @(1);
 	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
 	self.options.topBarHideOnScroll = hideOnScrollInput;
@@ -124,7 +124,14 @@
 	XCTAssertTrue(self.uut.navigationController.hidesBarsOnSwipe);
 }
 
-
+-(void)testTopBarButtonColor {
+	NSNumber* inputColor = @(0xFFFF0000);
+	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
+	self.options.topBarButtonColor = inputColor;
+	[self.uut viewWillAppear:false];
+	UIColor* expectedColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+	XCTAssertTrue([self.uut.navigationController.navigationBar.tintColor isEqual:expectedColor]);
+}
 
 
 

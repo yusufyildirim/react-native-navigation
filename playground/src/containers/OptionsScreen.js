@@ -12,7 +12,6 @@ import Navigation from 'react-native-navigation';
 class OptionsScreen extends Component {
   static navigationOptions = {
     title: 'Static Title',
-    topBarBackgroundColor: "red",
     topBarTextFontFamily: "HelveticaNeue-Italic"
   }
 
@@ -42,6 +41,7 @@ class OptionsScreen extends Component {
       title: 'Dynamic Title',
       topBarTextColor: '#00FFFF',
       topBarBackgroundColor: 'green',
+      topBarButtonColor: 'red',
       topBarTextFontFamily: "HelveticaNeue-CondensedBold"
     });
   }
@@ -51,7 +51,7 @@ class OptionsScreen extends Component {
       name: "navigation.playground.ScrollViewScreen"
     });
   }
-  
+
   onClickShowTopBar() {
     Navigation.setOptions(this.props.containerId, {
       topBarHidden: false

@@ -14,6 +14,7 @@
 	self.topBarTextFontFamily = [navigationOptions objectForKey:@"topBarTextFontFamily"];
 	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
 	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
+	self.topBarButtonColor = [navigationOptions objectForKey:@"topBarButtonColor"];
 	return self;
 }
 
@@ -66,6 +67,13 @@
 		} else {
 			viewController.navigationController.hidesBarsOnSwipe = NO;
 		}
+	}
+	
+	if (self.topBarButtonColor) {
+		UIColor* buttonColor = [RCTConvert UIColor:self.topBarButtonColor];
+		viewController.navigationController.navigationBar.tintColor = buttonColor;
+	} else {
+		viewController.navigationController.navigationBar.tintColor = nil;
 	}
 }
 
