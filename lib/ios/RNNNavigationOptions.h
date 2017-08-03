@@ -8,6 +8,7 @@
 @property (nonatomic, strong) NSNumber* statusBarHidden;
 @property (nonatomic, strong) NSString* title;
 @property (nonatomic, strong) NSNumber* screenBackgroundColor;
+@property (nonatomic, strong) NSString* topBarTextFontFamily;
 
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions;
 

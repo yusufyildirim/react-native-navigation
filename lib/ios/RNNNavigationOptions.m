@@ -11,6 +11,7 @@
 	self.title = [navigationOptions objectForKey:@"title"];
 	self.topBarTextColor = [navigationOptions objectForKey:@"topBarTextColor"];
 	self.screenBackgroundColor = [navigationOptions objectForKey:@"screenBackgroundColor"];
+	self.topBarTextFontFamily = [navigationOptions objectForKey:@"topBarTextFontFamily"];
 	return self;
 }
 
@@ -32,14 +33,19 @@
 	}
 	if (self.topBarTextColor) {
 		UIColor* textColor = [RCTConvert UIColor:self.topBarTextColor];
-		viewController.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:textColor};
+		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: textColor}];
+		if (self.topBarTextFontFamily) {
+			[navigationBarTitleTextAttributes addEntriesFromDictionary:@{NSFontAttributeName: [UIFont fontWithName:self.topBarTextFontFamily size:20]}];
+		}
+		viewController.navigationController.navigationBar.titleTextAttributes = navigationBarTitleTextAttributes;
+	} else if (self.topBarTextFontFamily){
+		viewController.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:self.topBarTextFontFamily size:20]};
 	}
 	if (self.screenBackgroundColor) {
 		UIColor* screenColor = [RCTConvert UIColor:self.screenBackgroundColor];
 		viewController.view.backgroundColor = screenColor;
 	}
 }
-
 
 
 
