@@ -21,6 +21,7 @@ class OptionsScreen extends Component {
     this.onClickDynamicOptions = this.onClickDynamicOptions.bind(this);
     this.onClickShowTopBar = this.onClickShowTopBar.bind(this);
     this.onClickHideTopBar = this.onClickHideTopBar.bind(this);
+    this.onClickScrollViewScreen = this.onClickScrollViewScreen.bind(this);
   }
 
   render() {
@@ -30,6 +31,7 @@ class OptionsScreen extends Component {
         <Button title="Dynamic Options" onPress={this.onClickDynamicOptions} />
         <Button title="Show Top Bar" onPress={this.onClickShowTopBar} />
         <Button title="Hide Top Bar" onPress={this.onClickHideTopBar} />
+        <Button title="scrollView Screen" onPress={this.onClickScrollViewScreen} />
         <Text style={styles.footer}>{`this.props.containerId = ${this.props.containerId}`}</Text>
       </View>
     );
@@ -44,6 +46,12 @@ class OptionsScreen extends Component {
     });
   }
 
+  onClickScrollViewScreen() {
+    Navigation.push(this.props.containerId, {
+      name: "navigation.playground.ScrollViewScreen"
+    });
+  }
+  
   onClickShowTopBar() {
     Navigation.setOptions(this.props.containerId, {
       topBarHidden: false

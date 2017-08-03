@@ -13,6 +13,7 @@
 	self.screenBackgroundColor = [navigationOptions objectForKey:@"screenBackgroundColor"];
 	self.topBarTextFontFamily = [navigationOptions objectForKey:@"topBarTextFontFamily"];
 	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
+	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
 	return self;
 }
 
@@ -55,6 +56,15 @@
 			[viewController.navigationController setNavigationBarHidden:YES animated:YES];
 		} else {
 			[viewController.navigationController setNavigationBarHidden:NO animated:YES];
+		}
+	}
+	
+	if (self.topBarHideOnScroll) {
+		BOOL topBarHideOnScrollBool = [self.topBarHideOnScroll boolValue];
+		if (topBarHideOnScrollBool) {
+			viewController.navigationController.hidesBarsOnSwipe = YES;
+		} else {
+			viewController.navigationController.hidesBarsOnSwipe = NO;
 		}
 	}
 }

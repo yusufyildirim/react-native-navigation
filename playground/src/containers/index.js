@@ -6,8 +6,10 @@ import PushedScreen from './PushedScreen';
 import LifecycleScreen from './LifecycleScreen';
 import ModalScreen from './ModalScreen';
 import OptionsScreen from './OptionsScreen';
+import ScrollViewScreen from './ScrollViewScreen';
 
 export function registerContainers() {
+  Navigation.registerContainer(`navigation.playground.ScrollViewScreen`, () => ScrollViewScreen);
   Navigation.registerContainer(`navigation.playground.WelcomeScreen`, () => WelcomeScreen);
   Navigation.registerContainer(`navigation.playground.ModalScreen`, () => ModalScreen);
   Navigation.registerContainer(`navigation.playground.LifecycleScreen`, () => LifecycleScreen);

@@ -116,6 +116,13 @@
 	XCTAssertThrows([self.uut viewWillAppear:false]);
 }
 
+-(void)testTopBarHideOnScroll_true{
+	NSNumber* hideOnScrollInput = @(1);
+	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
+	self.options.topBarHideOnScroll = hideOnScrollInput;
+	[self.uut viewWillAppear:false];
+	XCTAssertTrue(self.uut.navigationController.hidesBarsOnSwipe);
+}
 
 
 
