@@ -12,6 +12,7 @@
 	self.topBarTextColor = [navigationOptions objectForKey:@"topBarTextColor"];
 	self.screenBackgroundColor = [navigationOptions objectForKey:@"screenBackgroundColor"];
 	self.topBarTextFontFamily = [navigationOptions objectForKey:@"topBarTextFontFamily"];
+	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
 	return self;
 }
 
@@ -28,9 +29,11 @@
 	} else {
 		viewController.navigationController.navigationBar.barTintColor = nil;
 	}
+	
 	if (self.title) {
 		viewController.navigationItem.title = self.title;
 	}
+	
 	if (self.topBarTextColor) {
 		UIColor* textColor = [RCTConvert UIColor:self.topBarTextColor];
 		NSMutableDictionary* navigationBarTitleTextAttributes = [NSMutableDictionary dictionaryWithDictionary:@{NSForegroundColorAttributeName: textColor}];
@@ -41,9 +44,18 @@
 	} else if (self.topBarTextFontFamily){
 		viewController.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:self.topBarTextFontFamily size:20]};
 	}
+	
 	if (self.screenBackgroundColor) {
 		UIColor* screenColor = [RCTConvert UIColor:self.screenBackgroundColor];
 		viewController.view.backgroundColor = screenColor;
+	}
+	
+	if (self.topBarHidden){
+		if ([self.topBarHidden boolValue]) {
+			[viewController.navigationController setNavigationBarHidden:YES animated:YES];
+		} else {
+			[viewController.navigationController setNavigationBarHidden:NO animated:YES];
+		}
 	}
 }
 

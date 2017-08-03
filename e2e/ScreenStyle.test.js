@@ -24,4 +24,11 @@ describe('screen style', () => {
     await elementByLabel('Dynamic Options').tap();
     await expect(element(by.label('Options Screen'))).toBeVisible();
   });
+  it('hides Tab Bar when pressing on Hide Tab Bar and shows it when pressing on Show Tab Bar', async () => {
+    await elementByLabel('Push Options Screen').tap();
+    await elementByLabel('Hide Top Bar').tap();
+    await expect(element(by.type('UINavigationBar'))).toBeNotVisible();
+    await elementByLabel('Show Top Bar').tap();
+    await expect(element(by.type('UINavigationBar'))).toBeVisible();
+  });
 });
