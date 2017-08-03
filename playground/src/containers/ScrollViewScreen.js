@@ -23,7 +23,7 @@ class ScrollViewScreen extends Component {
     return (
       <ScrollView testID="scrollView" contentContainerStyle={styles.contentContainer}>
         <View>
-          <Text>Hello</Text>
+          <Text>{'Hello'}</Text>
         </View>
       </ScrollView>
     );
