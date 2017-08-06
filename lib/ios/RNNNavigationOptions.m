@@ -27,7 +27,7 @@
 	}
 }
 
--(void)applyOn:(UIViewController*)viewController{
+-(void)applyOn:(UIViewController*)viewController {
 	if (self.topBarBackgroundColor) {
 		UIColor* backgroundColor = [RCTConvert UIColor:self.topBarBackgroundColor];
 		viewController.navigationController.navigationBar.barTintColor = backgroundColor;
@@ -73,8 +73,7 @@
 		NSString *badge = [RCTConvert NSString:self.setTabBadge];
 		if (viewController.navigationController) {
 			viewController.navigationController.tabBarItem.badgeValue = badge;
-		}
-		else {
+    } else {
 			viewController.tabBarItem.badgeValue = badge;
 		}
 	}
