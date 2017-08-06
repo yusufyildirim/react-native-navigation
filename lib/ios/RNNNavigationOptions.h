@@ -11,6 +11,7 @@
 @property (nonatomic, strong) NSString* topBarTextFontFamily;
 @property (nonatomic, strong) NSNumber* topBarHidden;
 @property (nonatomic, strong) NSNumber* topBarHideOnScroll;
+@property (nonatomic, strong) NSString* setTabBadge;
 
 -(instancetype)init;
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions;

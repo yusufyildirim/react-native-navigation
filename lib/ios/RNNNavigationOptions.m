@@ -17,6 +17,7 @@
 	self.topBarTextFontFamily = [navigationOptions objectForKey:@"topBarTextFontFamily"];
 	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
 	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
+    self.setTabBadge = [navigationOptions objectForKey:@"setTabBadge"];
 	return self;
 }
 
@@ -66,6 +67,15 @@
 			viewController.navigationController.hidesBarsOnSwipe = YES;
 		} else {
 			viewController.navigationController.hidesBarsOnSwipe = NO;
+		}
+	}
+	if (self.setTabBadge) {
+		NSString *badge = [RCTConvert NSString:self.setTabBadge];
+		if (viewController.navigationController) {
+			viewController.navigationController.tabBarItem.badgeValue = badge;
+		}
+		else {
+			viewController.tabBarItem.badgeValue = badge;
 		}
 	}
 }
