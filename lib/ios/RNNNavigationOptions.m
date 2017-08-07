@@ -88,7 +88,7 @@
 			viewController.navigationController.tabBarItem.badgeValue = badge;
     } else {
 			viewController.tabBarItem.badgeValue = badge;
-		}
+	}
 
 	}
 	

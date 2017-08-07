@@ -1,17 +1,15 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import {
   StyleSheet,
   ScrollView,
   View,
-  
   Button
 } from 'react-native';
 
 import Navigation from 'react-native-navigation';
 
 class ScrollViewScreen extends Component {
-  static get navigationOptions()  {
+  static get navigationOptions() {
     return {
       topBarTranslucent: false
     };
@@ -24,7 +22,7 @@ class ScrollViewScreen extends Component {
     };
     this.onClickToggleTopBarHideOnScroll = this.onClickToggleTopBarHideOnScroll.bind(this);
   }
-  
+
   render() {
     return (
       <ScrollView testID="scrollView" contentContainerStyle={styles.contentContainer}>
