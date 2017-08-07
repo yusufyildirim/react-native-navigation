@@ -60,7 +60,7 @@ class OptionsScreen extends Component {
 
   onClickHideTopBar() {
     Navigation.setOptions(this.props.containerId, {
-      topBarTextFontFamily: "HelveticaNeue-CondensedBold"
+      topBarHidden: true
     });
   }
 }

@@ -36,7 +36,7 @@ describe('screen style', () => {
   it('hides topBar onScroll down and shows it on scroll up', async () => {
     await elementByLabel('Push Options Screen').tap();
     await elementByLabel('scrollView Screen').tap();
-    awaitelementByLabel('Toggle Top Bar Hide On Scroll').tap();
+    await elementByLabel('Toggle Top Bar Hide On Scroll').tap();
     await expect(element(by.type('UINavigationBar'))).toBeVisible();
     await element(by.id('scrollView')).swipe('up', 'fast');
     await expect(element(by.type('UINavigationBar'))).toBeNotVisible();

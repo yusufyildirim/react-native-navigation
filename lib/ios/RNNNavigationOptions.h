@@ -12,11 +12,9 @@
 @property (nonatomic, strong) NSNumber* topBarHidden;
 @property (nonatomic, strong) NSNumber* topBarHideOnScroll;
 @property (nonatomic, strong) NSNumber* topBarButtonColor;
-<<<<<<< HEAD
 @property (nonatomic, strong) NSNumber* topBarTranslucent;
-=======
 @property (nonatomic, strong) NSString* setTabBadge;
->>>>>>> bc6234ecc511aac84ef67cd65b0b87d76eec4d44
+
 
 
 -(instancetype)init;

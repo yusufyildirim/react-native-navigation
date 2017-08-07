@@ -99,8 +99,6 @@
 			viewController.navigationController.navigationBar.translucent = NO;
 		}
 	}
+	}
 }
-
-
-
 @end
