@@ -20,8 +20,8 @@
 	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
 	self.topBarButtonColor = [navigationOptions objectForKey:@"topBarButtonColor"];
 	self.topBarTranslucent = [navigationOptions objectForKey:@"topBarTranslucent"];
-	self.setTabBadge = [navigationOptions objectForKey:@"setTabBadge"];
-
+	self.tabBadge = [navigationOptions objectForKey:@"tabBadge"];
+	
 	return self;
 }
 
@@ -81,15 +81,15 @@
 		viewController.navigationController.navigationBar.tintColor = buttonColor;
 	} else {
 		viewController.navigationController.navigationBar.tintColor = nil;
-
-	if (self.setTabBadge) {
-		NSString *badge = [RCTConvert NSString:self.setTabBadge];
+	}
+	if (self.tabBadge) {
+		NSString *badge = [RCTConvert NSString:self.tabBadge];
 		if (viewController.navigationController) {
 			viewController.navigationController.tabBarItem.badgeValue = badge;
-    } else {
+		} else {
 			viewController.tabBarItem.badgeValue = badge;
-	}
-
+		}
+		
 	}
 	
 	if (self.topBarTranslucent) {
@@ -98,7 +98,6 @@
 		} else {
 			viewController.navigationController.navigationBar.translucent = NO;
 		}
-	}
 	}
 }
 @end

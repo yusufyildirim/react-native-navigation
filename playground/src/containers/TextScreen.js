@@ -30,7 +30,7 @@ class TextScreen extends Component {
 
   onButtonPress() {
     Navigation.setOptions(this.props.containerId, {
-      setTabBadge: `${_.floor(Math.random() * 10)}`
+      tabBadge: `${_.floor(Math.random() * 10)}`
     });
   }
 }

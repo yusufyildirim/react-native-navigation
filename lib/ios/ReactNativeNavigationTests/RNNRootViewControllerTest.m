@@ -18,7 +18,7 @@
 @implementation RNNRootViewControllerTest
 
 - (void)setUp {
-    [super setUp];
+	[super setUp];
 	self.creator = [[RNNTestRootViewCreator alloc] init];
 	self.pageName = @"somename";
 	self.containerId = @"cntId";
@@ -47,7 +47,7 @@
 - (void)testStatusBarHidden_default {
 	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
 	[self.uut viewWillAppear:false];
-
+	
 	XCTAssertFalse([self.uut prefersStatusBarHidden]);
 }
 
@@ -140,7 +140,25 @@
 	[self.uut viewWillAppear:false];
 	XCTAssertFalse(self.uut.navigationController.navigationBar.translucent);
 }
-
-
+-(void)testTabBadge {
+	NSString* tabBadgeInput = @"5";
+	self.options.tabBadge = tabBadgeInput;
+	__unused UITabBarController* vc = [[UITabBarController alloc] init];
+	NSMutableArray* controllers = [NSMutableArray new];
+	UITabBarItem* item = [[UITabBarItem alloc] initWithTitle:@"A Tab" image:nil tag:1];
+	[self.uut setTabBarItem:item];
+	[controllers addObject:self.uut];
+	[vc setViewControllers:controllers];
+	[self.uut viewWillAppear:false];
+	XCTAssertTrue([self.uut.tabBarItem.badgeValue isEqualToString:tabBadgeInput]);
+	
+}
+//-(void)testTopBarTextFontSize {
+//	NSNumber* topBarTextFontSizeInput = @(15);
+//	self.options.topBarTextFontSize = topBarTextFontSizeInput;
+//	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
+//	[self.uut viewWillAppear:false];
+////	XCTAssertTrue([self.uut.navigationController.navigationBar.titleTextAttributes[@"NSFont"] isEqual:expectedFont]);
+//}
 
 @end
