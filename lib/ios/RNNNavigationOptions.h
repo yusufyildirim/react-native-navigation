@@ -12,11 +12,14 @@
 @property (nonatomic, strong) NSNumber* topBarHidden;
 @property (nonatomic, strong) NSNumber* topBarHideOnScroll;
 @property (nonatomic, strong) NSNumber* topBarButtonColor;
+@property (nonatomic, strong) NSString* setTabBadge;
 
+
+-(instancetype)init;
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions;
 
--(void)apply:(UIViewController*)viewController;
--(void)setOptionsDynamically:(NSDictionary*)dynamicOptions;
+-(void)applyOn:(UIViewController*)viewController;
+-(void)mergeWith:(NSDictionary*)otherOptions;
 
 @end
 

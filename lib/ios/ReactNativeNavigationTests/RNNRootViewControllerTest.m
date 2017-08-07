@@ -133,6 +133,4 @@
 	XCTAssertTrue([self.uut.navigationController.navigationBar.tintColor isEqual:expectedColor]);
 }
 
-
-
 @end

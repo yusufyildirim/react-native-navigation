@@ -1,8 +1,12 @@
 #import "RNNNavigationOptions.h"
 #import <React/RCTConvert.h>
 
+
 @implementation RNNNavigationOptions
 
+-(instancetype)init {
+	return [self initWithDict:@{}];
+}
 
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions {
 	self = [super init];
@@ -15,16 +19,18 @@
 	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
 	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
 	self.topBarButtonColor = [navigationOptions objectForKey:@"topBarButtonColor"];
+	self.setTabBadge = [navigationOptions objectForKey:@"setTabBadge"];
+
 	return self;
 }
 
--(void)setOptionsDynamically:(NSDictionary *)dynamicOptions {
-	for(id key in dynamicOptions) {
-		[self setValue:[dynamicOptions objectForKey:key] forKey:key];
+-(void)mergeWith:(NSDictionary *)otherOptions {
+	for (id key in otherOptions) {
+		[self setValue:[otherOptions objectForKey:key] forKey:key];
 	}
 }
 
--(void)apply:(UIViewController*)viewController{
+-(void)applyOn:(UIViewController*)viewController {
 	if (self.topBarBackgroundColor) {
 		UIColor* backgroundColor = [RCTConvert UIColor:self.topBarBackgroundColor];
 		viewController.navigationController.navigationBar.barTintColor = backgroundColor;
@@ -74,6 +80,15 @@
 		viewController.navigationController.navigationBar.tintColor = buttonColor;
 	} else {
 		viewController.navigationController.navigationBar.tintColor = nil;
+
+	if (self.setTabBadge) {
+		NSString *badge = [RCTConvert NSString:self.setTabBadge];
+		if (viewController.navigationController) {
+			viewController.navigationController.tabBarItem.badgeValue = badge;
+    } else {
+			viewController.tabBarItem.badgeValue = badge;
+		}
+
 	}
 }
 
