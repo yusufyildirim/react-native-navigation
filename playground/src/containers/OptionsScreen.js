@@ -1,7 +1,5 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Button
@@ -10,9 +8,12 @@ import {
 import Navigation from 'react-native-navigation';
 
 class OptionsScreen extends Component {
-  static navigationOptions = {
-    title: 'Static Title',
-    topBarTextFontFamily: "HelveticaNeue-Italic"
+  static get navigationOptions() {
+    return {
+      title: 'Static Title',
+      topBarBackgroundColor: 'red',
+      topBarTextFontFamily: 'HelveticaNeue-Italic'
+    };
   }
 
   constructor(props) {
@@ -42,7 +43,7 @@ class OptionsScreen extends Component {
       topBarTextColor: '#00FFFF',
       topBarBackgroundColor: 'green',
       topBarButtonColor: 'red',
-      topBarTextFontFamily: "HelveticaNeue-CondensedBold"
+      topBarTextFontFamily: 'HelveticaNeue-CondensedBold'
     });
   }
 
@@ -60,7 +61,7 @@ class OptionsScreen extends Component {
 
   onClickHideTopBar() {
     Navigation.setOptions(this.props.containerId, {
-      topBarTextFontFamily: "HelveticaNeue-CondensedBold"
+       topBarHidden: true
     });
   }
 }
