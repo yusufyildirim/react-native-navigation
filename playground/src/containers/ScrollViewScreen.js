@@ -4,15 +4,17 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Text,
+  
   Button
 } from 'react-native';
 
 import Navigation from 'react-native-navigation';
 
 class ScrollViewScreen extends Component {
-  static navigationOptions = {
-    topBarTranslucent: false
+  static get navigationOptions()  {
+    return {
+      topBarTranslucent: false
+    };
   }
 
   constructor(props) {

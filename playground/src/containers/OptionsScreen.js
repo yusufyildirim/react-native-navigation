@@ -49,7 +49,7 @@ class OptionsScreen extends Component {
 
   onClickScrollViewScreen() {
     Navigation.push(this.props.containerId, {
-      name: "navigation.playground.ScrollViewScreen"
+      name: 'navigation.playground.ScrollViewScreen'
     });
   }
 

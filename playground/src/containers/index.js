@@ -1,5 +1,4 @@
 import Navigation from 'react-native-navigation';
-
 import WelcomeScreen from './WelcomeScreen';
 import TextScreen from './TextScreen';
 import PushedScreen from './PushedScreen';
