@@ -8,7 +8,8 @@ import ModalScreen from './ModalScreen';
 import OptionsScreen from './OptionsScreen';
 import ScrollViewScreen from './ScrollViewScreen';
 
-export function registerContainers() {
+
+function registerContainers() {
   Navigation.registerContainer(`navigation.playground.ScrollViewScreen`, () => ScrollViewScreen);
   Navigation.registerContainer(`navigation.playground.WelcomeScreen`, () => WelcomeScreen);
   Navigation.registerContainer(`navigation.playground.ModalScreen`, () => ModalScreen);
@@ -17,3 +18,7 @@ export function registerContainers() {
   Navigation.registerContainer(`navigation.playground.PushedScreen`, () => PushedScreen);
   Navigation.registerContainer(`navigation.playground.OptionsScreen`, () => OptionsScreen);
 }
+
+module.exports = {
+  registerContainers
+};
