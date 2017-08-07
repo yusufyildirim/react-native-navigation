@@ -133,6 +133,7 @@
 	XCTAssertTrue([self.uut.navigationController.navigationBar.tintColor isEqual:expectedColor]);
 }
 
+<<<<<<< HEAD
 -(void)testTopBarTranslucent {
 	NSNumber* topBarTranslucentInput = @(0);
 	self.options.topBarTranslucent = topBarTranslucentInput;
@@ -143,4 +144,6 @@
 
 
 
+=======
+>>>>>>> bc6234ecc511aac84ef67cd65b0b87d76eec4d44
 @end
