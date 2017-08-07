@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSNumber* topBarHidden;
 @property (nonatomic, strong) NSNumber* topBarHideOnScroll;
 @property (nonatomic, strong) NSNumber* topBarButtonColor;
+@property (nonatomic, strong) NSNumber* topBarTranslucent;
 
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions;
 

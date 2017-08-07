@@ -133,6 +133,14 @@
 	XCTAssertTrue([self.uut.navigationController.navigationBar.tintColor isEqual:expectedColor]);
 }
 
+-(void)testTopBarTranslucent {
+	NSNumber* topBarTranslucentInput = @(0);
+	self.options.topBarTranslucent = topBarTranslucentInput;
+	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
+	[self.uut viewWillAppear:false];
+	XCTAssertFalse(self.uut.navigationController.navigationBar.translucent);
+}
+
 
 
 @end

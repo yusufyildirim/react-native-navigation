@@ -15,6 +15,7 @@
 	self.topBarHidden = [navigationOptions objectForKey:@"topBarHidden"];
 	self.topBarHideOnScroll = [navigationOptions objectForKey:@"topBarHideOnScroll"];
 	self.topBarButtonColor = [navigationOptions objectForKey:@"topBarButtonColor"];
+	self.topBarTranslucent = [navigationOptions objectForKey:@"topBarTranslucent"];
 	return self;
 }
 
@@ -74,6 +75,14 @@
 		viewController.navigationController.navigationBar.tintColor = buttonColor;
 	} else {
 		viewController.navigationController.navigationBar.tintColor = nil;
+	}
+	
+	if (self.topBarTranslucent) {
+		if ([self.topBarTranslucent boolValue]) {
+			viewController.navigationController.navigationBar.translucent = YES;
+		} else {
+			viewController.navigationController.navigationBar.translucent = NO;
+		}
 	}
 }
 
