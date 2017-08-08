@@ -39,7 +39,6 @@ class ScrollViewScreen extends Component {
 
 module.exports = ScrollViewScreen;
 
-
 const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 20,
