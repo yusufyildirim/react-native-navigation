@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Button
-} from 'react-native';
+const React = require('react');
+const { Component } = require('react');
 
-import Navigation from 'react-native-navigation';
+const { View, Text, Button } = require('react-native');
+
+const Navigation = require('react-native-navigation');
 
 class OptionsScreen extends Component {
   static get navigationOptions() {
@@ -88,4 +86,4 @@ const styles = {
   }
 };
 
-export default OptionsScreen;
+module.exports = OptionsScreen;

@@ -22,7 +22,7 @@
 	self.topBarTranslucent = [navigationOptions objectForKey:@"topBarTranslucent"];
 	self.tabBadge = [navigationOptions objectForKey:@"tabBadge"];
 	self.topBarTextFontSize = [navigationOptions objectForKey:@"topBarTextFontSize"];
-	
+  
 	return self;
 }
 
@@ -89,12 +89,22 @@
 	} else {
 		viewController.navigationController.navigationBar.tintColor = nil;
 	}
+      
 	if (self.tabBadge) {
 		NSString *badge = [RCTConvert NSString:self.tabBadge];
 		if (viewController.navigationController) {
 			viewController.navigationController.tabBarItem.badgeValue = badge;
 		} else {
 			viewController.tabBarItem.badgeValue = badge;
+	}
+
+	}
+	
+	if (self.topBarTranslucent) {
+		if ([self.topBarTranslucent boolValue]) {
+			viewController.navigationController.navigationBar.translucent = YES;
+		} else {
+			viewController.navigationController.navigationBar.translucent = NO;
 		}
 		
 	}
@@ -106,7 +116,6 @@
 			viewController.navigationController.navigationBar.translucent = NO;
 		}
 	}
-	
-	
+
 }
 @end

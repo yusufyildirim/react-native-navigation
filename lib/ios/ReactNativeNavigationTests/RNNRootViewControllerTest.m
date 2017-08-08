@@ -109,8 +109,6 @@
 	XCTAssertTrue([self.uut.navigationController.navigationBar.titleTextAttributes[@"NSFont"] isEqual:expectedFont]);
 }
 
-
-
 -(void)testTopBarHideOnScroll_true {
 	NSNumber* hideOnScrollInput = @(1);
 	__unused UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.uut];
@@ -149,6 +147,7 @@
 	XCTAssertTrue([self.uut.tabBarItem.badgeValue isEqualToString:tabBadgeInput]);
 	
 }
+
 
 -(void)testTopBarTextFontSize_withoutTextFontFamily_withoutTextColor {
 	NSNumber* topBarTextFontSizeInput = @(15);

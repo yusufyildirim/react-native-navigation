@@ -18,6 +18,7 @@
 
 
 
+
 -(instancetype)init;
 -(instancetype)initWithDict:(NSDictionary *)navigationOptions;
 

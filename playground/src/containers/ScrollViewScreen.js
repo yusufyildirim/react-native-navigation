@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Button
-} from 'react-native';
+const React = require('react');
+const { Component } = require('react');
 
-import Navigation from 'react-native-navigation';
+const { StyleSheet, ScrollView, View, Button } = require('react-native');
+
+const Navigation = require('react-native-navigation');
 
 class ScrollViewScreen extends Component {
   static get navigationOptions() {
@@ -40,6 +37,9 @@ class ScrollViewScreen extends Component {
   }
 }
 
+module.exports = ScrollViewScreen;
+
+
 const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 20,
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
     height: 1000
   }
 });
-export default ScrollViewScreen;
+
