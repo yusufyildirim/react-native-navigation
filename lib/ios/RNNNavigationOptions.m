@@ -96,17 +96,7 @@
 			viewController.navigationController.tabBarItem.badgeValue = badge;
 		} else {
 			viewController.tabBarItem.badgeValue = badge;
-	}
-
-	}
-	
-	if (self.topBarTranslucent) {
-		if ([self.topBarTranslucent boolValue]) {
-			viewController.navigationController.navigationBar.translucent = YES;
-		} else {
-			viewController.navigationController.navigationBar.translucent = NO;
-		}
-		
+	  }
 	}
 	
 	if (self.topBarTranslucent) {
@@ -114,7 +104,7 @@
 			viewController.navigationController.navigationBar.translucent = YES;
 		} else {
 			viewController.navigationController.navigationBar.translucent = NO;
-		}
+		}		
 	}
 
 }
