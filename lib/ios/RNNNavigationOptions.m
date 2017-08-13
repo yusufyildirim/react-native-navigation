@@ -1,6 +1,7 @@
 #import "RNNNavigationOptions.h"
 #import <React/RCTConvert.h>
-
+#import "RNNNavigationController.h"
+#import "RNNTabBarController.h"
 
 @implementation RNNNavigationOptions
 
@@ -22,7 +23,8 @@
 	self.topBarTranslucent = [navigationOptions objectForKey:@"topBarTranslucent"];
 	self.tabBadge = [navigationOptions objectForKey:@"tabBadge"];
 	self.topBarTextFontSize = [navigationOptions objectForKey:@"topBarTextFontSize"];
-  
+	self.supportedOrientations = [navigationOptions objectForKey:@"supportedOrientations"];
+	
 	return self;
 }
 
@@ -106,6 +108,36 @@
 			viewController.navigationController.navigationBar.translucent = NO;
 		}		
 	}
-
+	
+	[self applySupportedOrientations:self.supportedOrientations on:viewController];
 }
+
+- (void)applySupportedOrientations:(NSArray *)supportedOrientations on:(UIViewController *)viewController {
+	NSUInteger supportedOrientationsMask = 0;
+	if (!supportedOrientations) {
+		supportedOrientationsMask = [[UIApplication sharedApplication] supportedInterfaceOrientationsForWindow:[[UIApplication sharedApplication] keyWindow]];
+	} else {
+		for (NSString* orientation in supportedOrientations) {
+			if ([orientation isEqualToString:@"all"]) {
+				supportedOrientationsMask = UIInterfaceOrientationMaskAll;
+				break;
+			}
+			if ([orientation isEqualToString:@"landscape"]) {
+				supportedOrientationsMask = (supportedOrientationsMask | UIInterfaceOrientationMaskLandscape);
+			}
+			if ([orientation isEqualToString:@"portrait"]) {
+				supportedOrientationsMask = (supportedOrientationsMask | UIInterfaceOrientationMaskPortrait);
+			}
+			if ([orientation isEqualToString:@"upsideDown"]) {
+				supportedOrientationsMask = (supportedOrientationsMask | UIInterfaceOrientationMaskPortraitUpsideDown);
+			}
+		}
+	}
+	
+	if (viewController.tabBarController) {
+		((RNNTabBarController *)viewController.tabBarController).orientation = supportedOrientationsMask;
+	} else
+		((RNNNavigationController *)viewController.navigationController).orientation = supportedOrientationsMask;
+}
+
 @end

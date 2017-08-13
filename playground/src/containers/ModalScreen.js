@@ -8,6 +8,12 @@ const { View, Text, Button } = require('react-native');
 const Navigation = require('react-native-navigation');
 
 class ModalScreen extends Component {
+  static get navigationOptions() {
+    return {
+      supportedOrientations: ['portrait']
+    };
+  }
+
   constructor(props) {
     super(props);
     this.onClickShowModal = this.onClickShowModal.bind(this);
@@ -17,10 +23,12 @@ class ModalScreen extends Component {
     this.onClickDismissAllPreviousModals = this.onClickDismissAllPreviousModals.bind(this);
     this.onClickDismissFirstInStack = this.onClickDismissFirstInStack.bind(this);
     this.onClickDismissAllModals = this.onClickDismissAllModals.bind(this);
+
+    this.state = { horizontal: false };
   }
   render() {
     return (
-      <View style={styles.root}>
+      <View style={styles.root} onLayout={this.detectHorizontal.bind(this)}>
         <Text style={styles.h1}>{`Modal Screen`}</Text>
         <Text style={styles.footer}>{`Modal Stack Position: ${this.getModalPosition()}`}</Text>
         <Button title="Show Modal" onPress={this.onClickShowModal} />
@@ -31,7 +39,7 @@ class ModalScreen extends Component {
         {this.props.previousModalIds ? (<Button title="Dismiss ALL Previous Modals" onPress={this.onClickDismissAllPreviousModals} />) : undefined}
         {this.props.previousModalIds ? (<Button title="Dismiss First In Stack" onPress={this.onClickDismissFirstInStack} />) : undefined}
         <Text style={styles.footer}>{`this.props.containerId = ${this.props.containerId}`}</Text>
-
+        <Text style={styles.footer} testID="currentOrientation">{this.state.horizontal ? 'Landscape' : 'Portrait'}</Text>
       </View>
     );
   }
@@ -43,8 +51,15 @@ class ModalScreen extends Component {
         passProps: {
           modalPosition: this.getModalPosition() + 1,
           previousModalIds: _.concat([], this.props.previousModalIds || [], this.props.containerId)
-        }
+        },
+        supportedOrientations: ['landscape']
       }
+    });
+  }
+
+  detectHorizontal({ nativeEvent: { layout: { width, height } } }) {
+    this.setState({
+      horizontal: width > height
     });
   }
 

@@ -9,7 +9,8 @@ class OptionsScreen extends Component {
   static get navigationOptions() {
     return {
       title: 'Static Title',
-      topBarTextFontFamily: 'HelveticaNeue-Italic'
+      topBarTextFontFamily: 'HelveticaNeue-Italic',
+      supportedOrientations: ['portrait', 'landscape']
     };
   }
 
@@ -19,17 +20,20 @@ class OptionsScreen extends Component {
     this.onClickShowTopBar = this.onClickShowTopBar.bind(this);
     this.onClickHideTopBar = this.onClickHideTopBar.bind(this);
     this.onClickScrollViewScreen = this.onClickScrollViewScreen.bind(this);
+
+    this.state = { horizontal: false };
   }
 
   render() {
     return (
-      <View style={styles.root}>
+      <View style={styles.root} onLayout={this.detectHorizontal.bind(this)}>
         <Text style={styles.h1}>{`Options Screen`}</Text>
         <Button title="Dynamic Options" onPress={this.onClickDynamicOptions} />
         <Button title="Show Top Bar" onPress={this.onClickShowTopBar} />
         <Button title="Hide Top Bar" onPress={this.onClickHideTopBar} />
         <Button title="scrollView Screen" onPress={this.onClickScrollViewScreen} />
         <Text style={styles.footer}>{`this.props.containerId = ${this.props.containerId}`}</Text>
+        <Text style={styles.footer} testID="currentOrientation">{this.state.horizontal ? 'Landscape' : 'Portrait'}</Text>
       </View>
     );
   }
@@ -59,6 +63,12 @@ class OptionsScreen extends Component {
   onClickHideTopBar() {
     Navigation.setOptions(this.props.containerId, {
       topBarHidden: true
+    });
+  }
+
+  detectHorizontal({ nativeEvent: { layout: { width, height } } }) {
+    this.setState({
+      horizontal: width > height
     });
   }
 }
