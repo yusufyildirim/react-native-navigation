@@ -219,5 +219,7 @@ export default {
   clearEventHandler: clearEventHandler,
   handleDeepLink: handleDeepLink,
   isAppLaunched: isAppLaunched,
-  isRootLaunched: isRootLaunched
+  isRootLaunched: isRootLaunched,
+  push,
+  pop,
 };
