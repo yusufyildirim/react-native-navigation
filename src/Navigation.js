@@ -6,6 +6,7 @@ import {Screen} from './Screen';
 
 import PropRegistry from './PropRegistry';
 
+const currentScreens = {};
 const registeredScreens = {};
 const _allNavigatorEventHandlers = {};
 
@@ -40,6 +41,14 @@ function _registerComponentNoRedux(screenID, generator) {
         }
       }
 
+      componentWillMount() { 
+        currentScreens[this.props.screenInstanceID] = this.navigator; 
+      } 
+
+      componentWillUnmount() { 
+        delete currentScreens[this.props.screenInstanceID];
+      }
+
       componentWillReceiveProps(nextProps) {
         this.setState({
           internalProps: {...PropRegistry.load(this.props.screenInstanceID), ...nextProps}
@@ -48,7 +57,7 @@ function _registerComponentNoRedux(screenID, generator) {
 
       render() {
         return (
-          <InternalComponent testID={screenID} navigator={this.navigator} {...this.state.internalProps} />
+          <InternalComponent testID={screenID} navigator={this.navigator} containerId={this.props.screenInstanceID} {...this.state.internalProps} />
         );
       }
     };
@@ -71,6 +80,14 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
         }
       }
 
+      componentWillMount() { 
+        currentScreens[this.props.screenInstanceID] = this.navigator; 
+      } 
+
+      componentWillUnmount() { 
+        delete currentScreens[this.props.screenInstanceID];
+      }
+
       componentWillReceiveProps(nextProps) {
         this.setState({
           internalProps: {...PropRegistry.load(this.props.screenInstanceID), ...nextProps}
@@ -80,7 +97,7 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
       render() {
         return (
           <Provider store={store} {...options}>
-            <InternalComponent testID={screenID} navigator={this.navigator} {...this.state.internalProps} />
+            <InternalComponent testID={screenID} navigator={this.navigator} containerId={this.props.screenInstanceID} {...this.state.internalProps} />
           </Provider>
         );
       }
@@ -173,6 +190,16 @@ async function isRootLaunched() {
 function getCurrentlyVisibleScreenId() {
   return platformSpecific.getCurrentlyVisibleScreenId();
 }
+
+function push(containerId, obj) { 
+  // this.screens[this.screens.length].navigator 
+  currentScreens[containerId].push(obj); 
+}
+
+function pop(containerId, obj) { 
+  // this.screens[this.screens.length].navigator 
+  currentScreens[containerId].pop(obj); 
+} 
 
 export default {
   getRegisteredScreen,
