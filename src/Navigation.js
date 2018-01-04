@@ -8,6 +8,7 @@ import PropRegistry from './PropRegistry';
 
 const registeredScreens = {};
 const _allNavigatorEventHandlers = {};
+const currentScreen = null;
 
 function registerScreen(screenID, generator) {
   registeredScreens[screenID] = generator;
@@ -68,6 +69,20 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
         super(props);
         this.state = {
           internalProps: {...props, ...PropRegistry.load(props.screenInstanceID)}
+        }
+
+        this.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+      }
+
+      onNavigatorEvent(event) {
+        switch(event.id) {
+          case 'willAppear':
+            console.log("SAYFA", screenID),
+            currentScreen = this.navigator;
+            break;
+
+          default:
+            break;
         }
       }
 
@@ -174,6 +189,10 @@ function getCurrentlyVisibleScreenId() {
   return platformSpecific.getCurrentlyVisibleScreenId();
 }
 
+function getCurrentScreen() {
+  return currentScreen;
+}
+
 export default {
   getRegisteredScreen,
   getCurrentlyVisibleScreenId,
@@ -192,5 +211,6 @@ export default {
   clearEventHandler: clearEventHandler,
   handleDeepLink: handleDeepLink,
   isAppLaunched: isAppLaunched,
-  isRootLaunched: isRootLaunched
+  isRootLaunched: isRootLaunched,
+  getCurrentScreen: getCurrentScreen,
 };
