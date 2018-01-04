@@ -21,7 +21,7 @@ class Navigator {
     this.navigatorID = navigatorID;
     this.screenInstanceID = screenInstanceID;
     this.navigatorEventID = navigatorEventID;
-    this.navigatorEventHandler = null;
+    this.navigatorEventHandler = [];
     this.navigatorEventSubscription = null;
     this._lastAction = {params: undefined, timestamp: 0};
   }
@@ -159,7 +159,7 @@ class Navigator {
   }
 
   setOnNavigatorEvent(callback) {
-    this.navigatorEventHandler = callback;
+    this.navigatorEventHandler.push(callback);
     if (!this.navigatorEventSubscription) {
       let Emitter = Platform.OS === 'android' ? DeviceEventEmitter : NativeAppEventEmitter;
       this.navigatorEventSubscription = Emitter.addListener(this.navigatorEventID, (event) => this.onNavigatorEvent(event));
@@ -173,7 +173,9 @@ class Navigator {
 
   onNavigatorEvent(event) {
     if (this.navigatorEventHandler) {
-      this.navigatorEventHandler(event);
+      for(let i = 0; i < this.navigatorEventHandler.length; i++) {
+        this.navigatorEventHandler[i](event);
+      }
     }
   }
 
