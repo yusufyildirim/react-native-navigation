@@ -71,7 +71,7 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
           internalProps: {...props, ...PropRegistry.load(props.screenInstanceID || props.passPropsKey)}
         }
 
-        this.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.navigator.addOnNavigatorEvent(this.onNavigatorEvent.bind(this));
       }
 
       onNavigatorEvent(event) {
