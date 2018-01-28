@@ -29,7 +29,7 @@ function _registerComponentNoRedux(screenID, generator) {
     if (!InternalComponent) {
       console.error(`Navigation: ${screenID} registration result is 'undefined'`);
     }
-    
+
     return class extends Screen {
       static navigatorStyle = InternalComponent.navigatorStyle || {};
       static navigatorButtons = InternalComponent.navigatorButtons || {};
@@ -37,13 +37,13 @@ function _registerComponentNoRedux(screenID, generator) {
       constructor(props) {
         super(props);
         this.state = {
-          internalProps: {...props, ...PropRegistry.load(props.screenInstanceID)}
+          internalProps: {...props, ...PropRegistry.load(props.screenInstanceID || props.passPropsKey)}
         }
       }
 
       componentWillReceiveProps(nextProps) {
         this.setState({
-          internalProps: {...PropRegistry.load(this.props.screenInstanceID), ...nextProps}
+          internalProps: {...PropRegistry.load(this.props.screenInstanceID || this.props.passPropsKey), ...nextProps}
         })
       }
 
@@ -68,7 +68,7 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
       constructor(props) {
         super(props);
         this.state = {
-          internalProps: {...props, ...PropRegistry.load(props.screenInstanceID)}
+          internalProps: {...props, ...PropRegistry.load(props.screenInstanceID || props.passPropsKey)}
         }
 
         this.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -88,7 +88,7 @@ function _registerComponentRedux(screenID, generator, store, Provider, options) 
 
       componentWillReceiveProps(nextProps) {
         this.setState({
-          internalProps: {...PropRegistry.load(this.props.screenInstanceID), ...nextProps}
+          internalProps: {...PropRegistry.load(this.props.screenInstanceID || this.props.passPropsKey), ...nextProps}
         })
       }
 
@@ -146,12 +146,20 @@ function dismissInAppNotification(params = {}) {
   return platformSpecific.dismissInAppNotification(params);
 }
 
-function startTabBasedApp(params) {
-  return platformSpecific.startTabBasedApp(params);
+async function startTabBasedApp(params) {
+  try {
+    return await platformSpecific.startTabBasedApp(params);
+  } catch(e) {
+    console.error(`Error while starting app: ${e}`);
+  }
 }
 
-function startSingleScreenApp(params) {
-  return platformSpecific.startSingleScreenApp(params);
+async function startSingleScreenApp(params) {
+  try {
+    return await platformSpecific.startSingleScreenApp(params);
+  } catch(e) {
+    console.error(`Error while starting app: ${e}`);
+  }
 }
 
 function setEventHandler(navigatorEventID, eventHandler) {
@@ -189,6 +197,10 @@ function getCurrentlyVisibleScreenId() {
   return platformSpecific.getCurrentlyVisibleScreenId();
 }
 
+async function getLaunchArgs() {
+  return await platformSpecific.getLaunchArgs();
+}
+
 function getCurrentScreen() {
   return currentScreen;
 }
@@ -213,4 +225,6 @@ export default {
   isAppLaunched: isAppLaunched,
   isRootLaunched: isRootLaunched,
   getCurrentScreen: getCurrentScreen,
+  isRootLaunched: isRootLaunched,
+  getLaunchArgs
 };
