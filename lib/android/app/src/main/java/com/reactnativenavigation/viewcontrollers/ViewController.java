@@ -67,6 +67,14 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
         return false;
     }
 
+    @CallSuper
+    public void mergeOptions(Options options) {
+        this.options = this.options.mergeWith(options);
+        applyOptions(this.options);
+        this.options.clearOneTimeOptions();
+    }
+
+    @CallSuper
     public void applyOptions(Options options) {
 
     }
@@ -146,6 +154,7 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
 
     }
 
+    @CallSuper
     public void onViewAppeared() {
         isShown = true;
         applyOptions(options);
@@ -159,6 +168,7 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
 
     }
 
+    @CallSuper
     public void onViewDisappear() {
         isShown = false;
     }

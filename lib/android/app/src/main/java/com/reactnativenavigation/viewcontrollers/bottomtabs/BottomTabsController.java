@@ -11,10 +11,10 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.reactnativenavigation.parse.BottomTabOptions;
 import com.reactnativenavigation.parse.Options;
 import com.reactnativenavigation.presentation.BottomTabsOptionsPresenter;
-import com.reactnativenavigation.presentation.NavigationOptionsListener;
 import com.reactnativenavigation.react.EventEmitter;
 import com.reactnativenavigation.utils.CommandListener;
 import com.reactnativenavigation.utils.ImageLoader;
+import com.reactnativenavigation.viewcontrollers.ChildControllersRegistry;
 import com.reactnativenavigation.viewcontrollers.ParentController;
 import com.reactnativenavigation.viewcontrollers.ViewController;
 import com.reactnativenavigation.views.BottomTabs;
@@ -28,7 +28,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 
-public class BottomTabsController extends ParentController implements AHBottomNavigation.OnTabSelectedListener, NavigationOptionsListener, TabSelector {
+public class BottomTabsController extends ParentController implements AHBottomNavigation.OnTabSelectedListener, TabSelector {
 
 	private BottomTabs bottomTabs;
 	private List<ViewController> tabs = new ArrayList<>();
@@ -37,8 +37,8 @@ public class BottomTabsController extends ParentController implements AHBottomNa
     private BottomTabsOptionsPresenter presenter;
     private final BottomTabFinder bottomTabFinder = new BottomTabFinder();
 
-    public BottomTabsController(final Activity activity, EventEmitter eventEmitter, ImageLoader imageLoader, final String id, Options initialOptions) {
-		super(activity, id, initialOptions);
+    public BottomTabsController(Activity activity, ChildControllersRegistry childRegistry, EventEmitter eventEmitter, ImageLoader imageLoader, String id, Options initialOptions) {
+		super(activity, childRegistry, id, initialOptions);
         this.eventEmitter = eventEmitter;
         this.imageLoader = imageLoader;
     }
@@ -146,12 +146,6 @@ public class BottomTabsController extends ParentController implements AHBottomNa
 	public Collection<ViewController> getChildControllers() {
 		return tabs;
 	}
-
-	@Override
-	public void mergeOptions(Options options) {
-        this.options = this.options.mergeWith(options);
-        presenter.present(this.options);
-    }
 
     @Override
     public void selectTab(final int newIndex) {
