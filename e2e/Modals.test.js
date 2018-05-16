@@ -21,7 +21,7 @@ describe('modal', () => {
     await expect(elementById(testIDs.WELCOME_SCREEN_HEADER)).toBeVisible();
   });
 
-  it('unmount modal when dismissed', async () => {
+  it(':android: unmount modal when dismissed', async () => {
     await elementById(testIDs.SHOW_MODAL_BUTTON).tap();
     await expect(elementById(testIDs.MODAL_SCREEN)).toBeVisible();
     await elementById(testIDs.MODAL_LIFECYCLE_BUTTON).tap();
@@ -31,7 +31,7 @@ describe('modal', () => {
     await elementByLabel('OK').atIndex(0).tap();
   });
 
-  it.only('show multiple modals', async () => {
+  it('show multiple modals', async () => {
     await elementById(testIDs.SHOW_MODAL_BUTTON).tap();
     await expect(elementByLabel('Modal Stack Position: 1')).toBeVisible();
     await elementById(testIDs.SHOW_MODAL_BUTTON).tap();
