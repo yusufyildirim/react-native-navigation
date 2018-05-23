@@ -21,13 +21,15 @@ describe('modal', () => {
     await expect(elementById(testIDs.WELCOME_SCREEN_HEADER)).toBeVisible();
   });
 
-  it(':android: unmount modal when dismissed', async () => {
+  it('unmount modal when dismissed', async () => {
     await elementById(testIDs.SHOW_MODAL_BUTTON).tap();
     await expect(elementById(testIDs.MODAL_SCREEN)).toBeVisible();
     await elementById(testIDs.MODAL_LIFECYCLE_BUTTON).tap();
     await expect(elementByLabel('didAppear')).toBeVisible();
     await elementById(testIDs.DISMISS_MODAL_BUTTON).tap();
     await expect(elementByLabel('componentWillUnmount')).toBeVisible();
+    await elementByLabel('OK').atIndex(0).tap();
+    await expect(elementByLabel('didDisappear')).toBeVisible();
     await elementByLabel('OK').atIndex(0).tap();
   });
 

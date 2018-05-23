@@ -3,6 +3,7 @@ package com.reactnativenavigation.viewcontrollers.bottomtabs;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.RestrictTo;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -14,6 +15,7 @@ import com.reactnativenavigation.presentation.BottomTabsOptionsPresenter;
 import com.reactnativenavigation.react.EventEmitter;
 import com.reactnativenavigation.utils.CommandListener;
 import com.reactnativenavigation.utils.ImageLoader;
+import com.reactnativenavigation.utils.ImageLoadingListenerAdapter;
 import com.reactnativenavigation.viewcontrollers.ChildControllersRegistry;
 import com.reactnativenavigation.viewcontrollers.ParentController;
 import com.reactnativenavigation.viewcontrollers.ViewController;
@@ -31,16 +33,18 @@ import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
 public class BottomTabsController extends ParentController implements AHBottomNavigation.OnTabSelectedListener, TabSelector {
 
 	private BottomTabs bottomTabs;
-	private List<ViewController> tabs = new ArrayList<>();
+	private List<ViewController> tabs;
     private EventEmitter eventEmitter;
     private ImageLoader imageLoader;
     private BottomTabsOptionsPresenter presenter;
     private final BottomTabFinder bottomTabFinder = new BottomTabFinder();
 
-    public BottomTabsController(Activity activity, ChildControllersRegistry childRegistry, EventEmitter eventEmitter, ImageLoader imageLoader, String id, Options initialOptions) {
+    public BottomTabsController(Activity activity, List<ViewController> tabs, ChildControllersRegistry childRegistry, EventEmitter eventEmitter, ImageLoader imageLoader, String id, Options initialOptions) {
 		super(activity, childRegistry, id, initialOptions);
+        this.tabs = tabs;
         this.eventEmitter = eventEmitter;
         this.imageLoader = imageLoader;
+        createTabs(tabs);
     }
 
 	@NonNull
@@ -48,7 +52,7 @@ public class BottomTabsController extends ParentController implements AHBottomNa
 	protected ViewGroup createView() {
 		RelativeLayout root = new RelativeLayout(getActivity());
 		bottomTabs = new BottomTabs(getActivity());
-        presenter = new BottomTabsOptionsPresenter(bottomTabs, this, bottomTabFinder);
+        presenter = new BottomTabsOptionsPresenter(bottomTabs, tabs, this, bottomTabFinder);
         bottomTabs.setOnTabSelectedListener(this);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
 		lp.addRule(ALIGN_PARENT_BOTTOM);
@@ -65,8 +69,7 @@ public class BottomTabsController extends ParentController implements AHBottomNa
     @Override
     public void applyChildOptions(Options options, Component child) {
         super.applyChildOptions(options, child);
-        final int tabIndex = bottomTabFinder.findByComponent(child);
-        if (tabIndex >= 0) presenter.present(this.options, tabIndex);
+        presenter.presentChildOptions(this.options, child);
         applyOnParentController(parentController ->
                 ((ParentController) parentController).applyChildOptions(this.options.copy().clearBottomTabsOptions().clearBottomTabOptions(), child)
         );
@@ -75,8 +78,7 @@ public class BottomTabsController extends ParentController implements AHBottomNa
     @Override
     public void mergeChildOptions(Options options, Component child) {
         super.mergeChildOptions(options, child);
-        final int tabIndex = bottomTabFinder.findByComponent(child);
-        presenter.present(options, tabIndex);
+        presenter.presentChildOptions(options, child);
         applyOnParentController(parentController ->
                 ((ParentController) parentController).mergeChildOptions(options.copy().clearBottomTabsOptions(), child)
         );
@@ -103,8 +105,8 @@ public class BottomTabsController extends ParentController implements AHBottomNa
         selectTab(index);
         return true;
 	}
-	
-	public void setTabs(final List<ViewController> tabs) {
+
+	private void createTabs(final List<ViewController> tabs) {
 		if (tabs.size() > 5) {
 			throw new RuntimeException("Too many tabs!");
 		}
@@ -123,15 +125,13 @@ public class BottomTabsController extends ParentController implements AHBottomNa
             icons.add(tabOptions.icon.get());
         }
 
-        imageLoader.loadIcons(getActivity(), icons, new ImageLoader.ImagesLoadingListener() {
+        imageLoader.loadIcons(getActivity(), icons, new ImageLoadingListenerAdapter() {
 
             @Override
             public void onComplete(@NonNull List<Drawable> drawables) {
                 List<AHBottomNavigationItem> tabs = new ArrayList<>();
                 for (int i = 0; i < drawables.size(); i++) {
-                    AHBottomNavigationItem tab = createTab(bottomTabOptionsList.get(i), drawables.get(i));
-                    tabs.add(tab);
-
+                    tabs.add(new AHBottomNavigationItem(bottomTabOptionsList.get(i).title.get(""), drawables.get(i)));
                 }
                 bottomTabs.addItems(tabs);
                 bottomTabs.post(() -> {
@@ -150,11 +150,6 @@ public class BottomTabsController extends ParentController implements AHBottomNa
 
 	}
 
-	private AHBottomNavigationItem createTab(final BottomTabOptions tabOptions, Drawable drawable) {
-        return  new AHBottomNavigationItem(tabOptions.title.get(""), drawable);
-
-	}
-
     public int getSelectedIndex() {
 		return bottomTabs.getCurrentItem();
 	}
@@ -169,13 +164,16 @@ public class BottomTabsController extends ParentController implements AHBottomNa
     public void selectTab(final int newIndex) {
         getView().removeView(getCurrentView());
         bottomTabs.setCurrentItem(newIndex, false);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        params.bottomMargin = bottomTabs.getHeight();
-        getView().addView(getCurrentView(), params);
+        getView().addView(getCurrentView());
     }
 
     @NonNull
     private ViewGroup getCurrentView() {
         return tabs.get(bottomTabs.getCurrentItem()).getView();
+    }
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    public BottomTabs getBottomTabs() {
+        return bottomTabs;
     }
 }
